@@ -31,5 +31,5 @@ Executed with Python 3.12.14 on Windows, Icarus Verilog 10.1 (HDL), and ngspice 
 
 These numbers apply to the included reference implementation and test conditions.
 Local checks are not formal verification, timing closure, silicon measurements, or
-a reproduction of original resume measurements. GitHub Actions must be checked
-separately after publishing; no cloud run is asserted by this local report.
+a reproduction of original resume measurements. GitHub Actions independently reruns the regression; the live workflow badge links
+to its current status.

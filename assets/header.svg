@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-label="32-bit pipelined processor: Five stages. Forwarding. Architectural verification.">
+<rect width="1200" height="260" rx="16" fill="#101a2b"/>
+<path d="M850 0V55L895 100H1200 M930 260V198L986 142H1200 M1000 0V65H1200" fill="none" stroke="#243650" stroke-width="2"/>
+<g fill="#75b9ff"><circle cx="895" cy="100" r="5"/><circle cx="986" cy="142" r="5"/><circle cx="1000" cy="65" r="5"/></g>
+<rect x="48" y="46" width="38" height="4" rx="2" fill="#75b9ff"/>
+<text x="48" y="85" fill="#75b9ff" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">DIGITAL DESIGN</text>
+<text x="46" y="145" fill="#f3f7fc" font-family="Arial,sans-serif" font-weight="700" font-size="44">32-bit pipelined processor</text>
+<text x="48" y="185" fill="#adbed4" font-family="Arial,sans-serif" font-size="20">Five stages. Forwarding. Architectural verification.</text>
+<text x="48" y="228" fill="#6e839e" font-family="Arial,sans-serif" font-size="13">MICHAEL COLBY  /  ELECTRICAL ENGINEERING</text>
+</svg>

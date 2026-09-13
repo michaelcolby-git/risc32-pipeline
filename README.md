@@ -1,55 +1,76 @@
-# Five-stage 32-bit RISC pipeline
+![32-bit pipelined processor](assets/header.svg)
 
-An educational Verilog core with EX/MEM and MEM/WB forwarding, a one-cycle load-use
-interlock, and EX-stage branch resolution. Tests compare retired instructions and
-data-memory contents against an independent sequential Python interpreter.
+# 32-bit Pipelined RISC Processor
 
-This is a new reference reconstruction; see [provenance](PROVENANCE.md).
-The original project's ISA was not supplied. This implementation uses a documented
-RV32I-encoding subset and does **not** claim full RISC-V compliance.
+[![Verify](https://github.com/michaelcolby-git/risc32-pipeline/actions/workflows/verify.yml/badge.svg)](https://github.com/michaelcolby-git/risc32-pipeline/actions/workflows/verify.yml)
 
-## Run the regression
+A five-stage Verilog processor with operand forwarding, a load-use interlock, and
+branch resolution in execute. Verification compares the retirement stream and data
+memory against an independent Python instruction interpreter.
 
-```sh
-python scripts/verify.py
-```
+| Pipeline | Verification | Clock stimulus |
+|---|---|---|
+| IF → ID → EX → MEM → WB | 26 scenarios; 3,000 randomized instructions | 20 ns / 50 MHz |
 
-Requires Python 3.10+ and Icarus Verilog (`iverilog`, `vvp`). No Python dependencies.
-Reports, per-test retirement traces, and a forwarding waveform are written to `build/`.
-The testbench clock is 20 ns. This establishes a simulation stimulus, not hardware Fmax.
+**[Architecture](docs/ARCHITECTURE.md) · [RTL](rtl/core.v) · [Results](results/VALIDATION.md) · [Design decisions](docs/DESIGN_NOTES.md)**
 
-## Datapath
+## Architecture
 
 ```mermaid
 flowchart LR
-  IF["IF: instruction + PC"] --> ID["ID: decode + registers"]
-  ID --> EX["EX: bypass + ALU + branch"]
-  EX --> MEM["MEM: load / store"]
-  MEM --> WB["WB: register write + retire"]
+  IF["IF · instruction fetch"] --> ID["ID · decode & registers"]
+  ID --> EX["EX · bypass, ALU & branch"]
+  EX --> MEM["MEM · load / store"]
+  MEM --> WB["WB · register write & retirement"]
   MEM -. "ALU result" .-> EX
   WB -. "writeback data" .-> EX
-  WB -. "same-cycle bypass" .-> ID
-  EX -. "taken branch flush" .-> IF
+  WB -. "register bypass" .-> ID
+  EX -. "branch redirect" .-> IF
 ```
 
-| Supported instructions | Notes |
+- EX/MEM forwarding takes priority over MEM/WB for the newest available value.
+- An immediate load dependency inserts one bubble; independent ALU dependencies use forwarding.
+- Store data and branch comparisons use forwarded operands.
+- Taken branches flush younger instructions, including wrong-path stores.
+- Register x0 remains zero; unsupported instructions and unaligned accesses raise a diagnostic fault.
+
+| Supported instructions | Behavior |
 |---|---|
-| ADD, SUB, AND, OR, XOR | 32-bit register operations |
-| ADDI | Sign-extended 12-bit immediate; NOP = ADDI x0,x0,0 |
-| LW, SW | Aligned 32-bit accesses |
-| BEQ, BNE | Signed PC-relative offset; taken targets word aligned |
+| ADD, SUB, AND, OR, XOR | Register arithmetic and logic |
+| ADDI | Signed 12-bit immediate; ADDI x0,x0,0 is NOP |
+| LW, SW | Word-aligned 32-bit memory access |
+| BEQ, BNE | Signed PC-relative branches |
 
-See [architecture and limitations](docs/ARCHITECTURE.md), [RTL](rtl/core.v),
-[test runner](scripts/verify.py), and [reference ISA model](scripts/isa.py).
-The regression checks dependency priority, store-data forwarding, load-to-branch,
-load-to-store, wrong-path stores/illegal instructions, backward branches, x0,
-negative immediates, and 12 fixed-seed randomized programs.
+The encoding follows this **RV32I subset**. The core has no full RISC-V compliance
+claim, precise traps, caches, or variable-latency memory.
 
-IPC is reported per workload with an explicit measurement window; 0.85 is not hardcoded.
+## Reproduce the results
 
-## Measured validation
+Requirements: Python 3.10+ and Icarus Verilog (`iverilog`, `vvp`) on PATH.
 
-**26 scenarios passed**, including 3,000 randomized instructions. The ALU forwarding
-sequence had zero load-use stalls; each directed immediate load-dependency sequence
-had one. Per-workload IPC, cycle counts, and retirement traces are in the
-[validation report](results/VALIDATION.md).
+```sh
+python -m unittest discover -s tests -p "test_*.py" -v
+python scripts/verify.py
+```
+
+The regression emits per-program traces, memory checks, a VCD waveform, logs, and
+`build/results.json`. It returns an error if the HDL and interpreter disagree.
+Windows executable paths can be supplied through `IVERILOG` and `VVP` environment variables.
+
+## Verification results
+
+All 26 scenarios passed locally. The directed ALU dependency chain recorded zero
+stalls; immediate load-to-ALU, load-to-store, and load-to-branch tests each recorded
+one. Twelve seeded programs added 3,000 randomized instructions.
+
+IPC is reported **per workload**, counting pipeline fill, stalls, and branch flushes.
+The 20 ns clock is a simulation setting, not a synthesized maximum frequency.
+
+| Inspectable result | What it demonstrates |
+|---|---|
+| [Forwarding trace](results/forwarding.csv) | Back-to-back arithmetic and newest-producer priority |
+| [Load-use trace](results/load_use.csv) | One-cycle interlock before dependent arithmetic |
+| [Branch trace](results/branch_flush.csv) | Retirement skips the wrong path |
+| [Full results](results/VALIDATION.md) | Cycle counts, stalls, flushes, and IPC |
+
+Implementation origin and measurement scope are recorded in [PROVENANCE.md](PROVENANCE.md).
