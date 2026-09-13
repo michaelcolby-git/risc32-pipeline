@@ -1,0 +1,198 @@
+{
+  "clock_period_ns": 20,
+  "measurement": "cycles from first post-reset fetch through last requested retirement; includes fill, stalls and flushes",
+  "tests": [
+    {
+      "name": "forwarding",
+      "cycles": 12,
+      "retired": 8,
+      "stalls": 0,
+      "flushes": 0,
+      "ipc": 0.6666666666666666
+    },
+    {
+      "name": "load_use",
+      "cycles": 10,
+      "retired": 5,
+      "stalls": 1,
+      "flushes": 0,
+      "ipc": 0.5
+    },
+    {
+      "name": "load_store",
+      "cycles": 10,
+      "retired": 5,
+      "stalls": 1,
+      "flushes": 0,
+      "ipc": 0.5
+    },
+    {
+      "name": "load_branch",
+      "cycles": 10,
+      "retired": 3,
+      "stalls": 1,
+      "flushes": 1,
+      "ipc": 0.3
+    },
+    {
+      "name": "branch_flush",
+      "cycles": 13,
+      "retired": 5,
+      "stalls": 0,
+      "flushes": 2,
+      "ipc": 0.38461538461538464
+    },
+    {
+      "name": "not_taken",
+      "cycles": 9,
+      "retired": 5,
+      "stalls": 0,
+      "flushes": 0,
+      "ipc": 0.5555555555555556
+    },
+    {
+      "name": "zero_register",
+      "cycles": 10,
+      "retired": 6,
+      "stalls": 0,
+      "flushes": 0,
+      "ipc": 0.6
+    },
+    {
+      "name": "wb_id",
+      "cycles": 9,
+      "retired": 5,
+      "stalls": 0,
+      "flushes": 0,
+      "ipc": 0.5555555555555556
+    },
+    {
+      "name": "loop",
+      "cycles": 30,
+      "retired": 18,
+      "stalls": 0,
+      "flushes": 4,
+      "ipc": 0.6
+    },
+    {
+      "name": "offset_sign",
+      "cycles": 11,
+      "retired": 6,
+      "stalls": 1,
+      "flushes": 0,
+      "ipc": 0.5454545454545454
+    },
+    {
+      "name": "random_0",
+      "cycles": 255,
+      "retired": 250,
+      "stalls": 1,
+      "flushes": 0,
+      "ipc": 0.9803921568627451
+    },
+    {
+      "name": "random_1",
+      "cycles": 262,
+      "retired": 250,
+      "stalls": 8,
+      "flushes": 0,
+      "ipc": 0.9541984732824428
+    },
+    {
+      "name": "random_2",
+      "cycles": 258,
+      "retired": 250,
+      "stalls": 4,
+      "flushes": 0,
+      "ipc": 0.9689922480620154
+    },
+    {
+      "name": "random_3",
+      "cycles": 258,
+      "retired": 250,
+      "stalls": 4,
+      "flushes": 0,
+      "ipc": 0.9689922480620154
+    },
+    {
+      "name": "random_4",
+      "cycles": 258,
+      "retired": 250,
+      "stalls": 4,
+      "flushes": 0,
+      "ipc": 0.9689922480620154
+    },
+    {
+      "name": "random_5",
+      "cycles": 257,
+      "retired": 250,
+      "stalls": 3,
+      "flushes": 0,
+      "ipc": 0.9727626459143969
+    },
+    {
+      "name": "random_6",
+      "cycles": 258,
+      "retired": 250,
+      "stalls": 4,
+      "flushes": 0,
+      "ipc": 0.9689922480620154
+    },
+    {
+      "name": "random_7",
+      "cycles": 257,
+      "retired": 250,
+      "stalls": 3,
+      "flushes": 0,
+      "ipc": 0.9727626459143969
+    },
+    {
+      "name": "random_8",
+      "cycles": 257,
+      "retired": 250,
+      "stalls": 3,
+      "flushes": 0,
+      "ipc": 0.9727626459143969
+    },
+    {
+      "name": "random_9",
+      "cycles": 262,
+      "retired": 250,
+      "stalls": 8,
+      "flushes": 0,
+      "ipc": 0.9541984732824428
+    },
+    {
+      "name": "random_10",
+      "cycles": 258,
+      "retired": 250,
+      "stalls": 4,
+      "flushes": 0,
+      "ipc": 0.9689922480620154
+    },
+    {
+      "name": "random_11",
+      "cycles": 255,
+      "retired": 250,
+      "stalls": 1,
+      "flushes": 0,
+      "ipc": 0.9803921568627451
+    },
+    {
+      "name": "illegal",
+      "expected_fault": true
+    },
+    {
+      "name": "unaligned_load",
+      "expected_fault": true
+    },
+    {
+      "name": "unaligned_store",
+      "expected_fault": true
+    },
+    {
+      "name": "unaligned_branch",
+      "expected_fault": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "recorded_at_utc": "2026-09-13T03:25:13.481191+00:00",
+  "sha256": {
+    "rtl/core.v": "edd1f3ce45ec9bb8e3da7dfed7abb36e588653b5027f9d37724227ed82c3d7da",
+    "scripts/isa.py": "ad2c1f4dc4bde32ffcf434922daffa7d51ff49da482784e5e4f728eafc513879",
+    "scripts/verify.py": "b8b2af09a33308900d9ed973a0694e49b378a7a493ed7e70c65461205da3e379",
+    "tests/tb_core.v": "15d3c25eb17e1b28ee7db2912f8c37f216d79f65ce9fa7f0f1f5155367005c36",
+    "tests/test_isa.py": "fa110e1d6106f8a541f30e66dc951ee7e246c6077248802471d32c8274619c68",
+    ".github/workflows/verify.yml": "babace98d5578cf422fcfe3b946cbe0af60a3d6b7c4d1663621b1eca2eed481d"
+  }
+}

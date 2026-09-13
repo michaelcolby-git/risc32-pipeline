@@ -1,0 +1,2 @@
+VCD info: dumpfile build/pipeline.vcd opened for output.
+PASS cycles=12 retired=8 stalls=0 flushes=0
